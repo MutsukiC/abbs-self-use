@@ -1,0 +1,16 @@
+VER=7.1.2
+UPSTREAM_VER=7.1.2-1
+OWTVER=19d51d3c19632a63fdbe17c62f10332d978cb940
+TDLIBVER=d1085f9cebc5a62379991ae1652673954f229c1f
+SRCS="tbl::https://github.com/Revincx/Yurigram/releases/download/$UPSTREAM_VER/yurigram-$UPSTREAM_VER-source.tar.gz \
+      git::rename=tg_owt;commit=${OWTVER}::https://github.com/desktop-app/tg_owt
+      git::rename=td;commit=${TDLIBVER}::https://github.com/tdlib/td"
+CHKSUMS="sha256::4a7e6ec070bf4aab5b24ca5269b3f4c209b1003170b016bf9af0d20f792fb744 \
+         SKIP \
+         SKIP"
+SUBDIR="yurigram"
+CHKUPDATE="anitya::id=390601"
+ENVREQ__ARM64="total_mem=60"
+ENVREQ__LOONGARCH64="total_mem_per_core=4"
+ENVREQ__LOONGSON3="total_mem_per_core=4"
+ENVREQ__PPC64EL="total_mem_per_core=4"

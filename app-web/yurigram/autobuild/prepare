@@ -1,0 +1,40 @@
+abinfo "Building tg_owt ..."
+(
+  export SRCDIR="$SRCDIR"/../tg_owt
+  export BLDDIR="$SRCDIR"/abbuild
+  export PKGDIR=/
+  export CMAKE_AFTER=(
+      '-DCMAKE_BUILD_TYPE=None'
+      '-DCMAKE_VERBOSE_MAKEFILE=OFF'
+      '-DBUILD_SHARED_LIBS=OFF'
+      '-DTG_OWT_DLOPEN_PIPEWIRE=OFF'
+  )
+  build_cmakeninja_configure
+  build_cmakeninja_build
+  build_cmakeninja_install
+)
+
+abinfo "Building tdlib ..."
+(
+  export SRCDIR="$SRCDIR"/../td
+  export BLDDIR="$SRCDIR"/abbuild
+  export PKGDIR=/
+  export CMAKE_AFTER=(
+      '-DCMAKE_BUILD_TYPE=None'
+      '-DCMAKE_VERBOSE_MAKEFILE=OFF'
+      '-DTD_E2E_ONLY=ON'
+      '-DTD_INSTALL_SHARED_LIBRARIES=OFF'
+      '-DTD_INSTALL_STATIC_LIBRARIES=ON'
+  )
+  build_cmakeninja_configure
+  build_cmakeninja_build
+  build_cmakeninja_install
+)
+
+if ab_match_arch riscv64; then
+	abinfo "Injecting -pthread and -latomic for RISCV64..."
+	export LDFLAGS="${LDFLAGS} -pthread -latomic"
+fi
+
+abinfo "Applying API ID from snapcraft.yml ..."
+export CMAKE_AFTER=(${CMAKE_AFTER[@]} $(grep TDESKTOP_API_ "$SRCDIR"/snap/snapcraft.yaml | awk '{print $2}'))
